@@ -46,34 +46,33 @@ amqp.connect(url)
     .then((channel) => {
       channel.prefetch(1).then(() => {
         channel.consume("processOrders", (msg) => {
-          //if (msg.properties.headers["x-death"]) {
-          console.log("msg --> ", msg.properties.headers);
           let messageContent;
           try {
             messageContent = JSON.parse(msg.content.toString());
           } catch (e) {
-            console.log("consumer.js:55 --> ", e);
+            console.log("consumer.js:53 --> ", e);
           }
           if (messageContent) {
-            console.log("messageContent --> ", messageContent, messageContent.orderId % 10);
             let actionId = messageContent.orderId % 10;
             switch (actionId) {
               case 1:
               case 2:
               case 3:
                 if (msg.properties.headers["x-death"]) {
-                  console.log("consumer.js:65 --> Сообщение уже было у нас в на обработке. ", JSON.stringify(msg.properties.headers["x-death"]));
+                  console.log("consumer.js:62 --> Сообщение уже было у нас в на обработке. ", JSON.stringify(msg.properties.headers["x-death"]));
                 } else {
                   /* Переставляем в другую очередь */
-                  channel.publish("billing.dlx", `processOrders.after.${actionId * 1000}`, new Buffer(messageContent), {
+                  channel.publish("billing.dlx", `processOrders.after.${actionId * 1000}`, new Buffer(JSON.stringify(messageContent)), {
                     persistent: true
                   });
                 }
                 channel.ack(msg);
+                break;
               default:
                 if (msg.properties.headers["x-death"]) {
-                  console.log("consumer.js:75 --> Сообщение уже было у нас в на обработке. ", JSON.stringify(msg.properties.headers["x-death"]));
-                }else{
+                  console.log("consumer.js:73 --> Сообщение уже было у нас в на обработке. ", JSON.stringify(msg.properties.headers["x-death"]));
+                } else {
+                  /* Сообщение "умрет" и попадет в обменник и очередь, указанные в параметрах x-dead-letter-exchange и x-dead-letter-routing-key */
                   channel.nack(msg, false, false);
                 }
                 break;
@@ -84,4 +83,3 @@ amqp.connect(url)
         });
       })
     });
-
