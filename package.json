@@ -1,0 +1,23 @@
+{
+  "name": "rabbit-mq-learning",
+  "version": "1.0.0",
+  "description": "В",
+  "main": "consumer.js",
+  "dependencies": {
+    "amqplib": "^0.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ria-com/rabbit-mq-learning.git"
+  },
+  "author": "sam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ria-com/rabbit-mq-learning/issues"
+  },
+  "homepage": "https://github.com/ria-com/rabbit-mq-learning#readme"
+}
