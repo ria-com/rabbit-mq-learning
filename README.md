@@ -19,3 +19,5 @@ npm install
 ## Блок-схема работы примера ##
 
 ![Блок-схема работы примера](scheme.png)
+
+[Ссылка на презентацию](https://docs.google.com/a/ria.com/presentation/d/1C50RGwFk4V7emb8H8QgyqRS7PkRirBb_qN-EgDOMkHQ/edit?usp=sharing)
